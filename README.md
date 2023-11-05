@@ -18,10 +18,10 @@ exist above and beneath the ocean.
 
 ---
 ### Phase 1
-- [ ] Fish Exists: *There is a fish on the screen.*
-- [ ] Fish Moves: *The fish moves left, right, up, and down when the arrow keys
+- [X] Fish Exists: *There is a fish on the screen.*
+- [X] Fish Moves: *The fish moves left, right, up, and down when the arrow keys
 are pressed.*
-- [ ] Screen Limits: *The fish cannot be moved offscreen, instead it wraps to the 
+- [X] Screen Limits: *The fish cannot be moved offscreen, instead it wraps to the 
 other side.*
 - [ ] Spawning Food: *Food randomly spawns within the given boundaries.*
 
