@@ -23,7 +23,7 @@ exist above and beneath the ocean.
 are pressed.*
 - [X] Screen Limits: *The fish cannot be moved offscreen, instead it wraps to the 
 other side.*
-- [ ] Spawning Food: *Food randomly spawns within the given boundaries.*
+- [X] Spawning Food: *Food randomly spawns within the given boundaries.*
 
 ### Phase 2
 - [ ] Grow: *If fish collide with food, the fish grows bigger/gains a scale.*
