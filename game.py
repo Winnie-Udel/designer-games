@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from designer import *
 from random import randint
 
+set_window_color("lightblue")
 FISH_SPEED = 5
 
 @dataclass
@@ -35,7 +36,7 @@ def head_right(world: World):
 def head_up(world: World):
     world.fish.y += -30
 
-def head_down(world:World):
+def head_down(world: World):
     world.fish.y += 30
 
 def wrap_fish(world: World):
