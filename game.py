@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from designer import *
+from random import randint
 
 FISH_SPEED = 5
 
@@ -7,10 +8,11 @@ FISH_SPEED = 5
 class World:
     fish: DesignerObject
     fish_speed: int
+    shrimps: list[DesignerObject]
 
 def create_world() -> World:
     """Create the world"""
-    return World(create_fish(), FISH_SPEED)
+    return World(create_fish(), FISH_SPEED, [])
 
 def create_fish() -> DesignerObject:
     """Create the fish"""
@@ -56,9 +58,24 @@ def control_fish(world: World, key: str):
     elif key == "down":
         head_down(world)
 
+def create_shrimp() -> DesignerObject:
+    shrimp = emoji("shrimp")
+    shrimp.scale_x = 0.5
+    shrimp.scale_y = 0.5
+    shrimp.x = randint(0, get_width())
+    shrimp.y = randint(0, get_height())
+    return shrimp
+
+def make_shrimp(world: World):
+    not_too_many_shrimps = len(world.shrimps) < 5
+    random_chance = randint(1, 100) == 10
+    if not_too_many_shrimps and random_chance:
+        world.shrimps.append(create_shrimp())
+
 when("starting", create_world)
 when("updating", move_fish)
 when("updating", wrap_fish)
 when("typing", control_fish)
+when("updating", make_shrimp)
 start()
 
