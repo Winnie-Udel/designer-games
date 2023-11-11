@@ -25,6 +25,8 @@ are pressed.*
 other side.*
 - [X] Spawning Food: *Food randomly spawns within the given boundaries.*
 
+Youtube link: https://youtu.be/xGT1E1P8qBs
+
 ### Phase 2
 - [ ] Grow: *If fish collide with food, the fish grows bigger/gains a scale.*
 - [ ] Spawning Predator: *Predators randomly spawn within the given boundaries.*
