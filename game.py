@@ -93,13 +93,17 @@ def make_shrimp(world: World):
 
 def eating_shrimp(world: World):
     eaten_shrimps = []
+    fish = world.fish
     for shrimp in world.shrimps:
         if colliding(shrimp, world.fish):
             eaten_shrimps.append(shrimp)
+            # Fish grows bigger
+            fish.scale_x += 0.05
+            fish.scale_y += 0.05
     world.shrimps = remove_shrimp(world.shrimps, eaten_shrimps)
 
 def remove_shrimp(shrimps: list[DesignerObject], eaten_shrimps: list[DesignerObject]) -> list[DesignerObject]:
-    #Remove eaten shrimps
+    # Remove eaten shrimps
     uneaten_shrimps = []
     for shrimp in shrimps:
         if shrimp in eaten_shrimps:
