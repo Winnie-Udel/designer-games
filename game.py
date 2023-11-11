@@ -91,10 +91,28 @@ def make_shrimp(world: World):
     if not_too_many_shrimps and random_chance:
         world.shrimps.append(create_shrimp())
 
+def eating_shrimp(world: World):
+    eaten_shrimps = []
+    for shrimp in world.shrimps:
+        if colliding(shrimp, world.fish):
+            eaten_shrimps.append(shrimp)
+    world.shrimps = remove_shrimp(world.shrimps, eaten_shrimps)
+
+def remove_shrimp(shrimps: list[DesignerObject], eaten_shrimps: list[DesignerObject]) -> list[DesignerObject]:
+    #Remove eaten shrimps
+    uneaten_shrimps = []
+    for shrimp in shrimps:
+        if shrimp in eaten_shrimps:
+            destroy(shrimp)
+        else:
+            uneaten_shrimps.append(shrimp)
+    return uneaten_shrimps
+
 when("starting", create_world)
 when("updating", move_fish)
 when("updating", wrap_fish)
 when("typing", control_fish)
 when("updating", make_shrimp)
+when("updating", eating_shrimp)
 start()
 
