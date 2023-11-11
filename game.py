@@ -87,7 +87,7 @@ def make_shrimp(world: World):
     A max of five shrimp can be spawned.
     """
     not_too_many_shrimps = len(world.shrimps) < 5
-    random_chance = randint(1, 100) == 10
+    random_chance = randint(1, 50) == 25
     if not_too_many_shrimps and random_chance:
         world.shrimps.append(create_shrimp())
 
