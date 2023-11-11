@@ -12,34 +12,43 @@ class World:
     shrimps: list[DesignerObject]
 
 def create_world() -> World:
-    """Create the world"""
+    """Create the world."""
     return World(create_fish(), FISH_SPEED, [])
 
 def create_fish() -> DesignerObject:
-    """Create the fish"""
+    """Create the fish."""
     fish = emoji("fish")
     fish.y = get_height() * (1/3)
     fish.flip_x = True
     return fish
 
 def move_fish(world:World):
+    """The fish constantly moves."""
     world.fish.x += world.fish_speed
 
 def head_left(world: World):
+    """The fish moves left."""
     world.fish_speed = -FISH_SPEED
     world.fish.flip_x = False
 
 def head_right(world: World):
+    """The fish moves right."""
     world.fish_speed = FISH_SPEED
     world.fish.flip_x = True
 
 def head_up(world: World):
+    """The fish moves up."""
     world.fish.y += -30
 
 def head_down(world: World):
+    """The fish moves down."""
     world.fish.y += 30
 
 def wrap_fish(world: World):
+    """
+    When the fish collides with the end of the screen,
+    fish warps to the opposite side of the screen.
+    """
     if world.fish.x > get_width():
         world.fish.x = 0
     elif world.fish.x < 0:
@@ -50,6 +59,10 @@ def wrap_fish(world: World):
         world.fish.y = get_height()
 
 def control_fish(world: World, key: str):
+    """
+    The fish moves left, right, up or down,
+    depending on the key the user presses.
+    """
     if key == "left":
         head_left(world)
     elif key == "right":
@@ -60,6 +73,7 @@ def control_fish(world: World, key: str):
         head_down(world)
 
 def create_shrimp() -> DesignerObject:
+    """Creates the shrimp, food for the fish."""
     shrimp = emoji("shrimp")
     shrimp.scale_x = 0.5
     shrimp.scale_y = 0.5
@@ -68,6 +82,10 @@ def create_shrimp() -> DesignerObject:
     return shrimp
 
 def make_shrimp(world: World):
+    """
+    The shrimps spawns randomly.
+    A max of five shrimp can be spawned.
+    """
     not_too_many_shrimps = len(world.shrimps) < 5
     random_chance = randint(1, 100) == 10
     if not_too_many_shrimps and random_chance:
