@@ -10,10 +10,13 @@ class World:
     fish: DesignerObject
     fish_speed: int
     shrimps: list[DesignerObject]
+    score: int
+    counter: list[DesignerObject]
 
 def create_world() -> World:
     """Create the world."""
-    return World(create_fish(), FISH_SPEED, [])
+    return World(create_fish(), FISH_SPEED, [], 0,
+                 text("black", "", 25, get_width()/2, 30, font_name = 'Roboto'))
 
 def create_fish() -> DesignerObject:
     """Create the fish."""
@@ -100,6 +103,8 @@ def eating_shrimp(world: World):
             # Fish grows bigger
             fish.scale_x += 0.05
             fish.scale_y += 0.05
+            # Scores
+            world.score += 1
     world.shrimps = remove_shrimp(world.shrimps, eaten_shrimps)
 
 def remove_shrimp(shrimps: list[DesignerObject], eaten_shrimps: list[DesignerObject]) -> list[DesignerObject]:
@@ -112,11 +117,16 @@ def remove_shrimp(shrimps: list[DesignerObject], eaten_shrimps: list[DesignerObj
             uneaten_shrimps.append(shrimp)
     return uneaten_shrimps
 
+def update_score(world: World):
+    """ Update the score """
+    world.counter.text = "Score: " + str(world.score)
+
 when("starting", create_world)
 when("updating", move_fish)
 when("updating", wrap_fish)
 when("typing", control_fish)
 when("updating", make_shrimp)
 when("updating", eating_shrimp)
+when("updating", update_score)
 start()
 
