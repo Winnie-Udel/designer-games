@@ -133,20 +133,21 @@ def create_shark() -> DesignerObject:
     return shark
 
 def make_sharks(world: World):
-    too_many_sharks = len(world.sharks) < 8
-    rand_chance = randint(1, 25) == 10
+    too_many_sharks = len(world.sharks) < 4
+    rand_chance = randint(1, 50) == 10
     if too_many_sharks and rand_chance:
         world.sharks.append(create_shark())
 
 def move_shark(world:World):
-    """The shark constantly moves."""
+    """The shark constantly moves. Shark is destroyed when moves offscreen"""
+    kept = []
     for shark in world.sharks:
         shark.x -= world.shark_speed
-        if shark.x < 0:
+        if shark.x > 0:
+            kept.append(shark)
+        else:
             destroy(shark)
-            #COME BACK TO THIS
-
-
+    world.sharks = kept
 
 when("starting", create_world)
 when("updating", move_fish)
