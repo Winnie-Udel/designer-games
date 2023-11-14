@@ -28,9 +28,9 @@ other side.*
 Youtube link: https://youtu.be/xGT1E1P8qBs
 
 ### Phase 2
-- [ ] Grow: *If fish collide with food, the fish grows bigger/gains a scale.*
-- [ ] Spawning Predator: *Predators randomly spawn within the given boundaries.*
-- [ ] Predator Move: *Predators move from side to side.*
+- [X] Grow: *If fish collide with food, the fish grows bigger.*
+- [X] Spawning Predator: *Predators randomly spawn within the given boundaries.*
+- [X] Predator Move: *Predators move from side to side.*
 - [ ] Predator Hurt: *If fish collide with a predator, the player loses a life.* 
 
 ### Phase 3
