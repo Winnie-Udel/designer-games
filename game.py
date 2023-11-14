@@ -4,18 +4,21 @@ from random import randint
 
 set_window_color("lightblue")
 FISH_SPEED = 5
+SHARK_SPEED = 2
 
 @dataclass
 class World:
     fish: DesignerObject
     fish_speed: int
     shrimps: list[DesignerObject]
+    sharks: list[DesignerObject]
+    shark_speed: int
     score: int
     counter: list[DesignerObject]
 
 def create_world() -> World:
     """Create the world."""
-    return World(create_fish(), FISH_SPEED, [], 0,
+    return World(create_fish(), FISH_SPEED, [], [], SHARK_SPEED, 0,
                  text("black", "", 25, get_width()/2, 30, font_name = 'Roboto'))
 
 def create_fish() -> DesignerObject:
@@ -121,6 +124,30 @@ def update_score(world: World):
     """ Update the score """
     world.counter.text = "Score: " + str(world.score)
 
+def create_shark() -> DesignerObject:
+    shark = emoji("shark")
+    shark.scale_x = 2
+    shark.scale_y = 2
+    shark.x = get_width()
+    shark.y = randint(0, get_height())
+    return shark
+
+def make_sharks(world: World):
+    too_many_sharks = len(world.sharks) < 8
+    rand_chance = randint(1, 25) == 10
+    if too_many_sharks and rand_chance:
+        world.sharks.append(create_shark())
+
+def move_shark(world:World):
+    """The shark constantly moves."""
+    for shark in world.sharks:
+        shark.x -= world.shark_speed
+        if shark.x < 0:
+            destroy(shark)
+            #COME BACK TO THIS
+
+
+
 when("starting", create_world)
 when("updating", move_fish)
 when("updating", wrap_fish)
@@ -128,5 +155,7 @@ when("typing", control_fish)
 when("updating", make_shrimp)
 when("updating", eating_shrimp)
 when("updating", update_score)
+when("updating", make_sharks)
+when("updating", move_shark)
 start()
 
