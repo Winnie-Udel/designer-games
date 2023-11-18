@@ -150,7 +150,6 @@ def eating_fish(world: World):
         if colliding(fish, shark):
             collided_sharks.append(shark)
             remove_hearts.append(world.lives[-1])
-            #fish_hurt(fish)
     world.sharks = filter_from(world.sharks, collided_sharks)
     world.lives = filter_from(world.lives, remove_hearts)
 
@@ -181,17 +180,11 @@ def display_heart(lives: list[DesignerObject]):
         hearts.append(heart)
     return hearts
 
-"""
-def fish_hurt(fish: DesignerObject):
-    for number in range(400):
-        if number % 2 == 0:
-            fish.visible = False
-            print(fish.visible)
-        else:
-            fish.visible = True
-            print("else", fish.visible)
-"""
-#COME BACK TO THIS
+def fish_hurt(world: World):
+    "Fish flashes when it has one life left"
+    if len(world.lives) < 2:
+        set_visible(world.fish, not world.fish.visible)
+        print(world.fish.visible)
 
 when("starting", create_world)
 when("updating", move_fish)
@@ -203,5 +196,6 @@ when("updating", update_score)
 when("updating", make_sharks)
 when("updating", move_shark)
 when("updating", eating_fish)
+when("updating", fish_hurt)
 start()
 
