@@ -111,17 +111,7 @@ def eating_shrimp(world: World):
             fish.scale_y += 0.05
             # Scores
             world.score += 1
-    world.shrimps = remove_shrimp(world.shrimps, eaten_shrimps)
-
-def remove_shrimp(shrimps: list[DesignerObject], eaten_shrimps: list[DesignerObject]) -> list[DesignerObject]:
-    # Remove eaten shrimps
-    uneaten_shrimps = []
-    for shrimp in shrimps:
-        if shrimp in eaten_shrimps:
-            destroy(shrimp)
-        else:
-            uneaten_shrimps.append(shrimp)
-    return uneaten_shrimps
+    world.shrimps = filter_from(world.shrimps, eaten_shrimps)
 
 def update_score(world: World):
     """ Update the score """
@@ -155,21 +145,24 @@ def move_shark(world:World):
 def eating_fish(world: World):
     fish = world.fish
     collided_sharks = []
+    remove_hearts = []
     for shark in world.sharks:
         if colliding(fish, shark):
             collided_sharks.append(shark)
-            destroy(world.lives[-1])
-    world.sharks = remove_shark(world.sharks, collided_sharks)
+            remove_hearts.append(world.lives[-1])
+            #fish_hurt(fish)
+    world.sharks = filter_from(world.sharks, collided_sharks)
+    world.lives = filter_from(world.lives, remove_hearts)
 
-def remove_shark(sharks: list[DesignerObject], eaten_sharks: list[DesignerObject]) -> list[DesignerObject]:
-    # Remove eaten shark
-    uncollided_sharks = []
-    for shark in sharks:
-        if shark in eaten_sharks:
-            destroy(shark)
+def filter_from(old_objects: list[DesignerObject], destroyed_objects: list[DesignerObject]) -> list[DesignerObject]:
+    # Removed destroyed objects
+    objects = []
+    for object in old_objects:
+        if object in destroyed_objects:
+            destroy(object)
         else:
-            uncollided_sharks.append(shark)
-    return uncollided_sharks
+            objects.append(object)
+    return objects
 
 def create_heart() -> DesignerObject:
     heart = emoji("❤")
@@ -187,6 +180,18 @@ def display_heart(lives: list[DesignerObject]):
         offset += 20
         hearts.append(heart)
     return hearts
+
+"""
+def fish_hurt(fish: DesignerObject):
+    for number in range(400):
+        if number % 2 == 0:
+            fish.visible = False
+            print(fish.visible)
+        else:
+            fish.visible = True
+            print("else", fish.visible)
+"""
+#COME BACK TO THIS
 
 when("starting", create_world)
 when("updating", move_fish)
