@@ -15,11 +15,14 @@ class World:
     shark_speed: int
     score: int
     counter: list[DesignerObject]
+    lives: list[DesignerObject]
+
 
 def create_world() -> World:
     """Create the world."""
     return World(create_fish(), FISH_SPEED, [], [], SHARK_SPEED, 0,
-                 text("black", "", 25, get_width()/2, 30, font_name = 'Roboto'))
+                 text("black", "", 25, get_width()/2, 30, font_name = 'Roboto'),
+                 display_heart([create_heart(), create_heart(), create_heart()]))
 
 def create_fish() -> DesignerObject:
     """Create the fish."""
@@ -149,6 +152,42 @@ def move_shark(world:World):
             destroy(shark)
     world.sharks = kept
 
+def eating_fish(world: World):
+    fish = world.fish
+    collided_sharks = []
+    for shark in world.sharks:
+        if colliding(fish, shark):
+            collided_sharks.append(shark)
+            destroy(world.lives[-1])
+    world.sharks = remove_shark(world.sharks, collided_sharks)
+
+def remove_shark(sharks: list[DesignerObject], eaten_sharks: list[DesignerObject]) -> list[DesignerObject]:
+    # Remove eaten shark
+    uncollided_sharks = []
+    for shark in sharks:
+        if shark in eaten_sharks:
+            destroy(shark)
+        else:
+            uncollided_sharks.append(shark)
+    return uncollided_sharks
+
+def create_heart() -> DesignerObject:
+    heart = emoji("❤")
+    heart.scale_x = 0.5
+    heart.scale_y = 0.5
+    heart.x = get_width()/2 - 20
+    heart.y = 55
+    return heart
+
+def display_heart(lives: list[DesignerObject]):
+    hearts = []
+    offset = 0
+    for index, heart in enumerate(lives):
+        heart.x += offset
+        offset += 20
+        hearts.append(heart)
+    return hearts
+
 when("starting", create_world)
 when("updating", move_fish)
 when("updating", wrap_fish)
@@ -158,5 +197,6 @@ when("updating", eating_shrimp)
 when("updating", update_score)
 when("updating", make_sharks)
 when("updating", move_shark)
+when("updating", eating_fish)
 start()
 
