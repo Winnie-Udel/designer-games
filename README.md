@@ -9,7 +9,7 @@
 ## Pitch
 
 ---
-In Shark Invasion, the player plays as a small, vulnerable fish amidst the deep 
+In *Shark Invasion*, the player plays as a small, vulnerable fish amidst the deep 
 blue ocean. The goal is simple: survive and grow! To do so, avoid the 
 predators and consume the food before the timer runs out! Beware, predators 
 exist above and beneath the ocean.
@@ -25,13 +25,13 @@ are pressed.*
 other side.*
 - [X] Spawning Food: *Food randomly spawns within the given boundaries.*
 
-Youtube link: https://youtu.be/xGT1E1P8qBs
+[Video: Phase 1 Progress](https://youtu.be/xGT1E1P8qBs)
 
 ### Phase 2
 - [X] Grow: *If fish collide with food, the fish grows bigger.*
 - [X] Spawning Predator: *Predators randomly spawn within the given boundaries.*
 - [X] Predator Move: *Predators move from side to side.*
-- [] Predator Hurt: *If fish collide with a predator, the player loses a life.* 
+- [X] Predator Hurt: *If fish collide with a predator, the player loses a life.* 
 
 ### Phase 3
 - [ ] Display Stats: *A section of the screen that displays the timer, current 
