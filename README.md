@@ -34,6 +34,8 @@ other side.*
 - [X] Predator Hurt: *If fish collide with a predator, the player loses a life.* 
 - [X] Player Last Life: *If player has one life left, fish starts flickering.*
 
+[Video: Phase 2 Progress](https://youtu.be/jQUauZPf3S8)
+
 ### Phase 3
 - [ ] Display Stats: *A section of the screen that displays the timer, current 
 score, and number of lives.*
