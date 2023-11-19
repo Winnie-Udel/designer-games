@@ -101,6 +101,8 @@ def make_shrimp(world: World):
         world.shrimps.append(create_shrimp())
 
 def eating_shrimp(world: World):
+    """When the shirmp and fish collide, the score increases by
+    one and the shrimp get destroyed"""
     eaten_shrimps = []
     fish = world.fish
     for shrimp in world.shrimps:
@@ -114,10 +116,11 @@ def eating_shrimp(world: World):
     world.shrimps = filter_from(world.shrimps, eaten_shrimps)
 
 def update_score(world: World):
-    """ Update the score """
+    """Update the score"""
     world.counter.text = "Score: " + str(world.score)
 
 def create_shark() -> DesignerObject:
+    """This creates the shark"""
     shark = emoji("shark")
     shark.scale_x = 2
     shark.scale_y = 2
@@ -126,13 +129,15 @@ def create_shark() -> DesignerObject:
     return shark
 
 def make_sharks(world: World):
+    """Randomly generates up to 4 sharks"""
     too_many_sharks = len(world.sharks) < 4
     rand_chance = randint(1, 50) == 10
     if too_many_sharks and rand_chance:
         world.sharks.append(create_shark())
 
 def move_shark(world:World):
-    """The shark constantly moves. Shark is destroyed when moves offscreen"""
+    """The shark constantly moves. Shark is destroyed when moves
+    offscreen"""
     kept = []
     for shark in world.sharks:
         shark.x -= world.shark_speed
@@ -143,6 +148,8 @@ def move_shark(world:World):
     world.sharks = kept
 
 def eating_fish(world: World):
+    """When fish collides with shark, shark is destroyed and player
+    looses one life"""
     fish = world.fish
     collided_sharks = []
     remove_hearts = []
@@ -154,7 +161,7 @@ def eating_fish(world: World):
     world.lives = filter_from(world.lives, remove_hearts)
 
 def filter_from(old_objects: list[DesignerObject], destroyed_objects: list[DesignerObject]) -> list[DesignerObject]:
-    # Removed destroyed objects
+    """Removed destroyed objects"""
     objects = []
     for object in old_objects:
         if object in destroyed_objects:
@@ -164,6 +171,7 @@ def filter_from(old_objects: list[DesignerObject], destroyed_objects: list[Desig
     return objects
 
 def create_heart() -> DesignerObject:
+    """Creates a heart"""
     heart = emoji("❤")
     heart.scale_x = 0.5
     heart.scale_y = 0.5
@@ -172,6 +180,8 @@ def create_heart() -> DesignerObject:
     return heart
 
 def display_heart(lives: list[DesignerObject]):
+    """The hearts are displayed in a row rather than stocked on top of
+    each other"""
     hearts = []
     offset = 0
     for index, heart in enumerate(lives):
@@ -184,7 +194,6 @@ def fish_hurt(world: World):
     "Fish flashes when it has one life left"
     if len(world.lives) < 2:
         set_visible(world.fish, not world.fish.visible)
-        print(world.fish.visible)
 
 when("starting", create_world)
 when("updating", move_fish)
