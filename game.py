@@ -5,6 +5,7 @@ from random import randint
 set_window_color("lightblue")
 FISH_SPEED = 5
 SHARK_SPEED = 2
+START_TIME = 45
 
 @dataclass
 class World:
@@ -16,13 +17,18 @@ class World:
     score: int
     counter: list[DesignerObject]
     lives: list[DesignerObject]
+    unit: int
+    second: int
+    timer: list[DesignerObject]
 
 
 def create_world() -> World:
     """Create the world."""
     return World(create_fish(), FISH_SPEED, [], [], SHARK_SPEED, 0,
                  text("black", "", 25, get_width()/2, 30, font_name = 'Roboto'),
-                 display_heart([create_heart(), create_heart(), create_heart()]))
+                 display_heart([create_heart(), create_heart(), create_heart()])
+                 ,0, START_TIME,
+                 text("black", "", 25, get_width()/2, 80, font_name = 'Roboto'))
 
 def create_fish() -> DesignerObject:
     """Create the fish."""
@@ -195,6 +201,13 @@ def fish_hurt(world: World):
     if len(world.lives) < 2:
         set_visible(world.fish, not world.fish.visible)
 
+def update_timer(world: World):
+    """ Update the timer """
+    world.unit += 2
+    if world.unit % 60 == 0:
+        world.second -= 1
+    world.timer.text = "Timer: " + str(world.second)
+
 when("starting", create_world)
 when("updating", move_fish)
 when("updating", wrap_fish)
@@ -206,5 +219,6 @@ when("updating", make_sharks)
 when("updating", move_shark)
 when("updating", eating_fish)
 when("updating", fish_hurt)
+when("updating", update_timer)
 start()
 
