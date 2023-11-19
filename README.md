@@ -32,6 +32,7 @@ other side.*
 - [X] Spawning Predator: *Predators randomly spawn within the given boundaries.*
 - [X] Predator Move: *Predators move from side to side.*
 - [X] Predator Hurt: *If fish collide with a predator, the player loses a life.* 
+- [X] Player Last Life: *If player has one life left, fish starts flickering.*
 
 ### Phase 3
 - [ ] Display Stats: *A section of the screen that displays the timer, current 
