@@ -37,7 +37,7 @@ other side.*
 [Video: Phase 2 Progress](https://youtu.be/jQUauZPf3S8)
 
 ### Phase 3
-- [ ] Display Stats: *A section of the screen that displays the timer, current 
+- [X] Display Stats: *A section of the screen that displays the timer, current 
 score, and number of lives.*
 - [ ] Survived Game Over: *Displays the player's final score when the timer runs 
 out.*
