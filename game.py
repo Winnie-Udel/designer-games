@@ -8,6 +8,19 @@ SHARK_SPEED = 2
 START_TIME = 45
 
 @dataclass
+class Button:
+    background: DesignerObject
+    border: DesignerObject
+    label: DesignerObject
+
+@dataclass
+class TitleScreen:
+    background: DesignerObject
+    header: DesignerObject
+    start_button: Button
+    setting_button: Button
+
+@dataclass
 class World:
     fish: DesignerObject
     fish_speed: int
@@ -21,18 +34,37 @@ class World:
     second: int
     timer: list[DesignerObject]
 
+def make_button(message: str, x: int, y: int) -> Button:
+    horizontal_padding = 12
+    vertical_padding = 8
+    label = text("navy", message, 20, x, y, layer = 'top', font_name = 'DejaVu Sans Mono')
+    return Button(rectangle("lightblue", label.width + horizontal_padding, label.height + vertical_padding, x, y),
+                  rectangle("navy", label.width + horizontal_padding, label.height + vertical_padding, x, y, 1),
+                  label)
+
+def create_title_screen() -> TitleScreen:
+    return TitleScreen(background_image("https://tinyurl.com/bdcsa9fz"),
+                    text("navy", "Shark Invasion", 50, get_width()/2, 250, font_name = 'DejaVu Sans Mono'),
+                    make_button("Play", get_width() / 2, 325),
+                    make_button("Setting", get_width() / 2, 375))
+
+def handle_title_buttons(world: TitleScreen):
+    if colliding_with_mouse(world.start_button.background):
+        change_scene("start")
+    if colliding_with_mouse(world.setting_button.background):
+        quit()
 
 def create_world() -> World:
     """Create the world."""
     return World(create_fish(), FISH_SPEED, [], [], SHARK_SPEED, 0,
-                 text("navy", "", 20, get_width()/2, 30, font_name = 'DejaVu Sans Mono'),
+                 text("navy", "", 20, get_width()/2, 30, layer = 'top', font_name = 'DejaVu Sans Mono'),
                  display_heart([create_heart(), create_heart(), create_heart()])
                  ,0, START_TIME,
-                 text("navy", "", 20, get_width()/2, 80, font_name = 'DejaVu Sans Mono'))
+                 text("navy", "", 20, get_width()/2, 80, layer = 'top', font_name = 'DejaVu Sans Mono'))
 
 def create_fish() -> DesignerObject:
     """Create the fish."""
-    fish = image("https://tinyurl.com/54fe79hb")
+    fish = image("https://tinyurl.com/4wehzdus")
     fish.scale_x = 0.4
     fish.scale_y = 0.4
     fish.y = get_height() * (1/3)
@@ -129,7 +161,7 @@ def update_score(world: World):
 
 def create_shark() -> DesignerObject:
     """This creates the shark"""
-    shark = image("https://tinyurl.com/mrysm5sf")
+    shark = image("https://tinyurl.com/dzdncfm9")
     shark.x = get_width()
     shark.y = randint(0, get_height())
     return shark
@@ -208,16 +240,18 @@ def update_timer(world: World):
         world.second -= 1
     world.timer.text = "Timer: " + str(world.second)
 
-when("starting", create_world)
-when("updating", move_fish)
-when("updating", wrap_fish)
-when("typing", control_fish)
-when("updating", make_shrimp)
-when("updating", eating_shrimp)
-when("updating", update_score)
-when("updating", make_sharks)
-when("updating", move_shark)
-when("updating", eating_fish)
-when("updating", fish_hurt)
-when("updating", update_timer)
+when("starting: title", create_title_screen)
+when("clicking: title", handle_title_buttons)
+when("starting: start", create_world)
+when("updating: start", move_fish)
+when("updating: start", wrap_fish)
+when("typing: start", control_fish)
+when("updating: start", make_shrimp)
+when("updating: start", eating_shrimp)
+when("updating: start", update_score)
+when("updating: start", make_sharks)
+when("updating: start", move_shark)
+when("updating: start", eating_fish)
+when("updating: start", fish_hurt)
+when("updating: start", update_timer)
 start()
