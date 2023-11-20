@@ -43,6 +43,6 @@ score, and number of lives.*
 out.*
 - [ ] Dead Game Over: *Displays the player's final score when the player runs 
 out of lives.*
-- [ ] Play Button: *A cover screen with a play button.*
+- [X] Play Button: *A cover screen with a play button.*
 - [ ] Setting: *The player can adjust the difficulty; the timer limits and the 
 number of lives.*
