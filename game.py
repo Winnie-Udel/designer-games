@@ -25,19 +25,21 @@ class World:
 def create_world() -> World:
     """Create the world."""
     return World(create_fish(), FISH_SPEED, [], [], SHARK_SPEED, 0,
-                 text("black", "", 25, get_width()/2, 30, font_name = 'Roboto'),
+                 text("navy", "", 20, get_width()/2, 30, font_name = 'DejaVu Sans Mono'),
                  display_heart([create_heart(), create_heart(), create_heart()])
                  ,0, START_TIME,
-                 text("black", "", 25, get_width()/2, 80, font_name = 'Roboto'))
+                 text("navy", "", 20, get_width()/2, 80, font_name = 'DejaVu Sans Mono'))
 
 def create_fish() -> DesignerObject:
     """Create the fish."""
-    fish = emoji("fish")
+    fish = image("https://tinyurl.com/54fe79hb")
+    fish.scale_x = 0.4
+    fish.scale_y = 0.4
     fish.y = get_height() * (1/3)
     fish.flip_x = True
     return fish
 
-def move_fish(world:World):
+def move_fish(world: World):
     """The fish constantly moves."""
     world.fish.x += world.fish_speed
 
@@ -90,8 +92,8 @@ def control_fish(world: World, key: str):
 def create_shrimp() -> DesignerObject:
     """Creates the shrimp, food for the fish."""
     shrimp = emoji("shrimp")
-    shrimp.scale_x = 0.5
-    shrimp.scale_y = 0.5
+    shrimp.scale_x = 0.6
+    shrimp.scale_y = 0.6
     shrimp.x = randint(0, get_width())
     shrimp.y = randint(0, get_height())
     return shrimp
@@ -102,7 +104,7 @@ def make_shrimp(world: World):
     A max of five shrimp can be spawned.
     """
     not_too_many_shrimps = len(world.shrimps) < 5
-    random_chance = randint(1, 50) == 25
+    random_chance = randint(1, 100) == 25
     if not_too_many_shrimps and random_chance:
         world.shrimps.append(create_shrimp())
 
@@ -127,9 +129,7 @@ def update_score(world: World):
 
 def create_shark() -> DesignerObject:
     """This creates the shark"""
-    shark = emoji("shark")
-    shark.scale_x = 2
-    shark.scale_y = 2
+    shark = image("https://tinyurl.com/mrysm5sf")
     shark.x = get_width()
     shark.y = randint(0, get_height())
     return shark
@@ -141,7 +141,7 @@ def make_sharks(world: World):
     if too_many_sharks and rand_chance:
         world.sharks.append(create_shark())
 
-def move_shark(world:World):
+def move_shark(world: World):
     """The shark constantly moves. Shark is destroyed when moves
     offscreen"""
     kept = []
@@ -178,9 +178,9 @@ def filter_from(old_objects: list[DesignerObject], destroyed_objects: list[Desig
 
 def create_heart() -> DesignerObject:
     """Creates a heart"""
-    heart = emoji("❤")
-    heart.scale_x = 0.5
-    heart.scale_y = 0.5
+    heart = image("https://tinyurl.com/4wnm92hz")
+    heart.scale_x = 0.8
+    heart.scale_y = 0.8
     heart.x = get_width()/2 - 20
     heart.y = 55
     return heart
@@ -192,7 +192,7 @@ def display_heart(lives: list[DesignerObject]):
     offset = 0
     for index, heart in enumerate(lives):
         heart.x += offset
-        offset += 20
+        offset += 25
         hearts.append(heart)
     return hearts
 
@@ -221,4 +221,3 @@ when("updating", eating_fish)
 when("updating", fish_hurt)
 when("updating", update_timer)
 start()
-
