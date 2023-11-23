@@ -23,26 +23,28 @@ exist above and beneath the ocean.
 are pressed.*
 - [X] Screen Limits: *The fish cannot be moved offscreen, instead it wraps to the 
 other side.*
-- [X] Spawning Food: *Food randomly spawns within the given boundaries.*
+- [X] Spawning Shrimp: *Shrimp randomly spawns within the given boundaries.*
 
 [Video: Phase 1 Progress](https://youtu.be/xGT1E1P8qBs)
 
 ### Phase 2
-- [X] Grow: *If fish collide with food, the fish grows bigger.*
-- [X] Spawning Predator: *Predators randomly spawn within the given boundaries.*
-- [X] Predator Move: *Predators move from side to side.*
-- [X] Predator Hurt: *If fish collide with a predator, the player loses a life.* 
-- [X] Player Last Life: *If player has one life left, fish starts flickering.*
+- [X] Grow: *If fish collide with shrimp, the fish grows bigger.*
+- [X] Spawning Sharks: *Sharks randomly spawn within the given boundaries.*
+- [X] Shark Move: *Sharks move from side to side.*
+- [X] Fish Hurt: *If fish collide with a shark, the player loses a life.* 
+- [X] Fish Last Life: *If player has one life left, fish starts flickering.*
 
 [Video: Phase 2 Progress](https://youtu.be/jQUauZPf3S8)
 
 ### Phase 3
 - [X] Display Stats: *A section of the screen that displays the timer, current 
 score, and number of lives.*
-- [ ] Survived Game Over: *Displays the player's final score when the timer runs 
-out.*
-- [ ] Dead Game Over: *Displays the player's final score when the player runs 
-out of lives.*
+- [ ] Game Over: *Displays the player's final score when the player runs 
+out of lives/timer runs out.*
 - [X] Play Button: *A cover screen with a play button.*
-- [ ] Setting: *The player can adjust the difficulty; the timer limits and the 
-number of lives.*
+- [ ] More Sharks: *As the game progresses, more shark is spawned. The difficulty grows 
+as the shark also grows in speed.*
+- [ ] Marine Snow: *Marine snow will descend from above, and if collides with fish, the
+fish shrinks.*
+- [ ] Add Time: *Time-power ups would descend from above, and if collides with fish,
+15 more seconds is added to the timer.*
