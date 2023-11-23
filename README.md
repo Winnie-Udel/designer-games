@@ -42,7 +42,7 @@ score, and number of lives.*
 - [ ] Game Over: *Displays the player's final score when the player runs 
 out of lives/timer runs out.*
 - [X] Play Button: *A cover screen with a play button.*
-- [ ] More Sharks: *As the game progresses, more shark is spawned. The difficulty grows 
+- [X] More Sharks: *As the game progresses, more shark is spawned. The difficulty grows 
 as the shark also grows in speed.*
 - [ ] Marine Snow: *Marine snow will descend from above, and if collides with fish, the
 fish shrinks.*
