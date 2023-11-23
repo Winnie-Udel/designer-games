@@ -44,7 +44,7 @@ def make_button(message: str, x: int, y: int) -> Button:
                   label)
 
 def create_title_screen() -> TitleScreen:
-    return TitleScreen(background_image("https://tinyurl.com/bdcsa9fz"),
+    return TitleScreen(background_image("images/title_background.png"),
                     text("navy", "Shark Invasion", 50, get_width()/2, 250, font_name = 'DejaVu Sans Mono'),
                     make_button("Play", get_width() / 2, 325),
                     make_button("Quit", get_width() / 2, 375))
@@ -66,7 +66,7 @@ def create_world() -> World:
 
 def create_fish() -> DesignerObject:
     """Create the fish."""
-    fish = image("https://tinyurl.com/4wehzdus")
+    fish = image("images/fish.png")
     fish.scale_x = 0.4
     fish.scale_y = 0.4
     fish.y = get_height() * (1/3)
@@ -164,7 +164,7 @@ def update_score(world: World):
 
 def create_shark() -> DesignerObject:
     """This creates the shark"""
-    shark = image("https://tinyurl.com/dzdncfm9")
+    shark = image("images/shark.png")
     shark.x = get_width()
     shark.y = randint(0, get_height())
     return shark
@@ -213,7 +213,7 @@ def filter_from(old_objects: list[DesignerObject], destroyed_objects: list[Desig
 
 def create_heart() -> DesignerObject:
     """Creates a heart."""
-    heart = image("https://tinyurl.com/4wnm92hz")
+    heart = image("images/heart.png")
     heart.scale_x = 0.8
     heart.scale_y = 0.8
     heart.x = get_width()/2 - 20
