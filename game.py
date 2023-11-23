@@ -18,7 +18,7 @@ class TitleScreen:
     background: DesignerObject
     header: DesignerObject
     start_button: Button
-    setting_button: Button
+    quit_button: Button
 
 @dataclass
 class World:
@@ -28,11 +28,12 @@ class World:
     sharks: list[DesignerObject]
     shark_speed: int
     score: int
-    counter: list[DesignerObject]
-    lives: list[DesignerObject]
-    unit: int
+    score_counter: list[DesignerObject]
+    hearts: list[DesignerObject]
+    frame: int
     second: int
     timer: list[DesignerObject]
+    shark_number: int
 
 def make_button(message: str, x: int, y: int) -> Button:
     horizontal_padding = 12
@@ -46,21 +47,22 @@ def create_title_screen() -> TitleScreen:
     return TitleScreen(background_image("https://tinyurl.com/bdcsa9fz"),
                     text("navy", "Shark Invasion", 50, get_width()/2, 250, font_name = 'DejaVu Sans Mono'),
                     make_button("Play", get_width() / 2, 325),
-                    make_button("Setting", get_width() / 2, 375))
+                    make_button("Quit", get_width() / 2, 375))
 
 def handle_title_buttons(world: TitleScreen):
     if colliding_with_mouse(world.start_button.background):
         change_scene("start")
-    if colliding_with_mouse(world.setting_button.background):
+    if colliding_with_mouse(world.quit_button.background):
         quit()
 
 def create_world() -> World:
     """Create the world."""
     return World(create_fish(), FISH_SPEED, [], [], SHARK_SPEED, 0,
                  text("navy", "", 20, get_width()/2, 30, layer = 'top', font_name = 'DejaVu Sans Mono'),
-                 display_heart([create_heart(), create_heart(), create_heart()])
-                 ,0, START_TIME,
-                 text("navy", "", 20, get_width()/2, 80, layer = 'top', font_name = 'DejaVu Sans Mono'))
+                 aligned_hearts([create_heart(), create_heart(), create_heart()])
+                 , 0, START_TIME,
+                 text("navy", "", 20, get_width()/2, 80, layer = 'top', font_name = 'DejaVu Sans Mono'),
+                 3)
 
 def create_fish() -> DesignerObject:
     """Create the fish."""
@@ -98,14 +100,15 @@ def wrap_fish(world: World):
     When the fish collides with the end of the screen,
     fish warps to the opposite side of the screen.
     """
-    if world.fish.x > get_width():
-        world.fish.x = 0
-    elif world.fish.x < 0:
-        world.fish.x = get_width()
-    elif world.fish.y > get_height():
-        world.fish.y = 0
-    elif world.fish.y < 0:
-        world.fish.y = get_height()
+    fish = world.fish
+    if fish.x > get_width():
+        fish.x = 0
+    elif fish.x < 0:
+        fish.x = get_width()
+    elif fish.y > get_height():
+        fish.y = 0
+    elif fish.y < 0:
+        fish.y = get_height()
 
 def control_fish(world: World, key: str):
     """
@@ -157,7 +160,7 @@ def eating_shrimp(world: World):
 
 def update_score(world: World):
     """Update the score"""
-    world.counter.text = "Score: " + str(world.score)
+    world.score_counter.text = "Score: " + str(world.score)
 
 def create_shark() -> DesignerObject:
     """This creates the shark"""
@@ -168,7 +171,7 @@ def create_shark() -> DesignerObject:
 
 def make_sharks(world: World):
     """Randomly generates up to 4 sharks"""
-    too_many_sharks = len(world.sharks) < 4
+    too_many_sharks = len(world.sharks) < world.shark_number
     rand_chance = randint(1, 50) == 10
     if too_many_sharks and rand_chance:
         world.sharks.append(create_shark())
@@ -194,9 +197,9 @@ def eating_fish(world: World):
     for shark in world.sharks:
         if colliding(fish, shark):
             collided_sharks.append(shark)
-            remove_hearts.append(world.lives[-1])
+            remove_hearts.append(world.hearts[-1])
     world.sharks = filter_from(world.sharks, collided_sharks)
-    world.lives = filter_from(world.lives, remove_hearts)
+    world.hearts = filter_from(world.hearts, remove_hearts)
 
 def filter_from(old_objects: list[DesignerObject], destroyed_objects: list[DesignerObject]) -> list[DesignerObject]:
     """Removed destroyed objects"""
@@ -209,7 +212,7 @@ def filter_from(old_objects: list[DesignerObject], destroyed_objects: list[Desig
     return objects
 
 def create_heart() -> DesignerObject:
-    """Creates a heart"""
+    """Creates a heart."""
     heart = image("https://tinyurl.com/4wnm92hz")
     heart.scale_x = 0.8
     heart.scale_y = 0.8
@@ -217,28 +220,34 @@ def create_heart() -> DesignerObject:
     heart.y = 55
     return heart
 
-def display_heart(lives: list[DesignerObject]):
+def aligned_hearts(hearts: list[DesignerObject]):
     """The hearts are displayed in a row rather than stocked on top of
     each other"""
-    hearts = []
+    new_hearts = []
     offset = 0
-    for index, heart in enumerate(lives):
+    for index, heart in enumerate(hearts):
         heart.x += offset
         offset += 25
-        hearts.append(heart)
-    return hearts
+        new_hearts.append(heart)
+    return new_hearts
 
 def fish_hurt(world: World):
     "Fish flashes when it has one life left"
-    if len(world.lives) < 2:
+    if len(world.hearts) < 2:
         set_visible(world.fish, not world.fish.visible)
 
 def update_timer(world: World):
     """ Update the timer """
-    world.unit += 2
-    if world.unit % 60 == 0:
+    world.frame += 1
+    if world.frame % 30 == 0:
         world.second -= 1
     world.timer.text = "Timer: " + str(world.second)
+
+def spawn_more_sharks(world: World):
+    """more sharks is spawned and shark become faster every 25 seconds passed"""
+    if world.frame % 750 == 0:
+        world.shark_number += 1
+        world.shark_speed += 1
 
 when("starting: title", create_title_screen)
 when("clicking: title", handle_title_buttons)
@@ -254,4 +263,5 @@ when("updating: start", move_shark)
 when("updating: start", eating_fish)
 when("updating: start", fish_hurt)
 when("updating: start", update_timer)
+when("updating: start", spawn_more_sharks)
 start()
