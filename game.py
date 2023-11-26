@@ -6,6 +6,7 @@ set_window_color("lightblue")
 FISH_SPEED = 5
 SHARK_SPEED = 2
 START_TIME = 45
+SHARK_NUMBER = 3
 
 @dataclass
 class Button:
@@ -19,6 +20,15 @@ class TitleScreen:
     header: DesignerObject
     start_button: Button
     quit_button: Button
+
+@dataclass
+class GameOverScreen:
+    # background: DesignerObject
+    header: DesignerObject
+    final_score: DesignerObject
+    remaining_hearts: DesignerObject
+    bonus_point: DesignerObject
+    home_button: Button
 
 @dataclass
 class World:
@@ -91,7 +101,7 @@ def create_world() -> World:
                  aligned_hearts([create_heart(), create_heart(), create_heart()])
                  , 0, START_TIME,
                  text("navy", "", 20, get_width()/2, 80, layer = 'top', font_name = 'DejaVu Sans Mono'),
-                 3)
+                 SHARK_NUMBER)
 
 def create_fish() -> DesignerObject:
     """
@@ -315,12 +325,15 @@ def create_heart() -> DesignerObject:
     heart.y = 55
     return heart
 
-def aligned_hearts(hearts: list[DesignerObject]):
+def aligned_hearts(hearts: list[DesignerObject]) -> list[DesignerObject]:
     """
     Displayed the hearts side by side.
 
     Args:
         hearts (list[DesignerObject]): List of desired amount of hearts.
+
+    Returns:
+        list[DesignerObject]: List of hearts that's displayed side by side.
     """
     new_hearts = []
     offset = 0
@@ -359,9 +372,34 @@ def spawn_more_shark(world: World):
     Args:
         world (World): The World's instance.
     """
-    if world.frame % 600 == 0:
+    if world.frame % 600 == 0: # 30 frames * 20 = 600
         world.shark_number += 1
         world.shark_speed += 1
+
+def game_over(world: World) -> bool:
+    time_runs_out = world.second == 0
+    no_more_hearts = len(world.hearts) == 0
+    return time_runs_out or no_more_hearts
+
+def calculate_final_score(world: World) -> int:
+    final_score = world.score + (len(world.hearts) * 15)
+    return final_score
+
+def create_game_over_screen(world: World) -> GameOverScreen:
+    final_score = calculate_final_score(world)
+    remaining_hearts = len(world.hearts)
+    return GameOverScreen(text("navy", "Game Over!", 60, get_width()/2, 180, font_name = 'DejaVu Sans Mono'),
+                          text("navy", "Final Score: " + str(final_score), 35, get_width()/2, 245,
+                               font_name = 'DejaVu Sans Mono'),
+                          text("navy", "Remaining Hearts: " + str(remaining_hearts), 20, get_width() / 2, 280,
+                               font_name='DejaVu Sans Mono'),
+                          text("navy", "Bonus Points: +" + str(remaining_hearts * 15), 20, get_width() / 2, 305,
+                               font_name='DejaVu Sans Mono'),
+                          make_button("Home", get_width()/2, 365))
+
+def handle_game_over_button(world: GameOverScreen):
+    if colliding_with_mouse(world.home_button.background):
+        change_scene("title")
 
 when("starting: title", create_title_screen)
 when("clicking: title", handle_title_buttons)
@@ -378,4 +416,6 @@ when("updating: start", eating_fish)
 when("updating: start", last_heart_warning)
 when("updating: start", update_timer)
 when("updating: start", spawn_more_shark)
+when("updating: start", game_over, pause, create_game_over_screen)
+when("clicking: start", handle_game_over_button) # Game Over Button Does Not Work
 start()
