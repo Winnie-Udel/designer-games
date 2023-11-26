@@ -38,12 +38,13 @@ class World:
     sharks: list[DesignerObject]
     shark_speed: int
     score: int
-    score_counter: list[DesignerObject]
+    score_counter: DesignerObject
     hearts: list[DesignerObject]
     frame: int
     second: int
-    timer: list[DesignerObject]
+    timer: DesignerObject
     shark_number: int
+    power_ups: list[DesignerObject]
 
 def make_button(message: str, x: int, y: int) -> Button:
     """
@@ -101,7 +102,7 @@ def create_world() -> World:
                  aligned_hearts([create_heart(), create_heart(), create_heart()])
                  , 0, START_TIME,
                  text("navy", "", 20, get_width()/2, 80, layer = 'top', font_name = 'DejaVu Sans Mono'),
-                 SHARK_NUMBER)
+                 SHARK_NUMBER, [])
 
 def create_fish() -> DesignerObject:
     """
@@ -376,6 +377,63 @@ def spawn_more_shark(world: World):
         world.shark_number += 1
         world.shark_speed += 1
 
+def create_power_up() -> DesignerObject:
+    """
+    Creates a timer power-up.
+
+    Returns:
+        DesignerObject: An image of a timer power-up.
+    """
+    power_up = image("images/timer.png")
+    power_up.scale_x = 0.3
+    power_up.scale_y = 0.3
+    power_up.x = randint(0, get_width())
+    power_up.y = 0
+    return power_up
+
+def spawn_power_up(world: World):
+    """
+    Power-ups randomly spawns.
+
+    Args:
+        world (World): The World's instance.
+    """
+    not_too_many_power_ups = len(world.power_ups) < 2
+    random_chance = randint(1, 150) == 100
+    if not_too_many_power_ups and random_chance:
+        world.power_ups.append(create_power_up())
+
+def move_power_up(world: World):
+    """
+    The power ups descends from above. The power ups is destroyed when moved offscreen.
+
+    Args:
+        world (World): The World's instance.
+    """
+    kept = []
+    for power_up in world.power_ups:
+        power_up.y += 1
+        if power_up.y < get_height():
+            kept.append(power_up)
+        else:
+            destroy(power_up)
+    world.power_ups = kept
+
+def more_time(world: World):
+    """
+    When fish collide with time power-ups, 15 seconds is added to the timer.
+
+    Args:
+        world (World): The World's instance.
+    """
+    fish = world.fish
+    collided_power_ups = []
+    for power_up in world.power_ups:
+        if colliding(fish, power_up):
+            collided_power_ups.append(power_up)
+            world.second += 15
+    world.power_ups = filter_from(world.power_ups, collided_power_ups)
+
 def game_over(world: World) -> bool:
     time_runs_out = world.second == 0
     no_more_hearts = len(world.hearts) == 0
@@ -416,6 +474,9 @@ when("updating: start", eating_fish)
 when("updating: start", last_heart_warning)
 when("updating: start", update_timer)
 when("updating: start", spawn_more_shark)
+when("updating: start", spawn_power_up)
+when("updating: start", move_power_up)
+when("updating: start", more_time)
 when("updating: start", game_over, pause, create_game_over_screen)
 when("clicking: start", handle_game_over_button) # Game Over Button Does Not Work
 start()
