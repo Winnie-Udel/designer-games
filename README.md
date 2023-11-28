@@ -41,12 +41,12 @@ other side.*
 score, and number of lives.*
 - [ ] Game Over: *Displays the player's final score when the player runs 
 out of lives/timer runs out.*
-- [ ] Bonus Points: *If player has remaining lives left after the timer runs out, each lives count as 
+- [X] Bonus Points: *If player has remaining lives left after the timer runs out, each lives count as 
 an extra 15 points.*
 - [X] Play Button: *A cover screen with a play button.*
 - [X] More Sharks: *As the game progresses, more shark is spawned. The difficulty grows 
 as the shark also grows in speed.*
 - [ ] Marine Snow: *Marine snow will descend from above, and if collides with fish, the
 fish shrinks.*
-- [ ] Add Time: *Time-power ups would descend from above, and if collides with fish,
+- [X] Add Time: *Time-power ups would descend from above, and if collides with fish,
 15 more seconds is added to the timer.*
