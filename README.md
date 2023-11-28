@@ -1,4 +1,26 @@
-## Contributors
+# SHARK INVASION!
+
+Description: This game is about a fish trying to survive a shark invasion uses its resources.
+
+## About
+
+---
+In *Shark Invasion*, the player plays as a small, vulnerable fish amidst the deep 
+blue ocean. The goal is simple: survive and grow! To do so, avoid the 
+sharks and consume the shrimp before the timer runs out! Beware, sharks take away your lives.
+
+## Instructions
+
+---
+- Use the arrow keys to move the fish right, left, up, and down. 
+- Eat shrimp to increase your score and grow bigger.
+- The sharks take away a life. 
+- The maine snow shrinks the fish to make it easier to avoid the shark.
+- Collect time power-ups to increase your time by 15 seconds.
+- Bonus points are received when lives are left over after the time runs out. 
+- The game gets harder over time. 
+
+## Authors
 
 ---
 | Name                  | UD Email               |
@@ -6,15 +28,8 @@
 | Winnie Li             | winnie@udel.edu        |
 | Samita Bomasamudram   | samiboma@udel.edu      |
 
-## Pitch
+## Resources
 
----
-In *Shark Invasion*, the player plays as a small, vulnerable fish amidst the deep 
-blue ocean. The goal is simple: survive and grow! To do so, avoid the 
-predators and consume the food before the timer runs out! Beware, predators 
-exist above and beneath the ocean.
-
-## Game Plan
 
 ---
 ### Phase 1
