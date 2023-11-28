@@ -46,7 +46,7 @@ an extra 15 points.*
 - [X] Play Button: *A cover screen with a play button.*
 - [X] More Sharks: *As the game progresses, more shark is spawned. The difficulty grows 
 as the shark also grows in speed.*
-- [ ] Marine Snow: *Marine snow will descend from above, and if collides with fish, the
+- [X] Marine Snow: *Marine snow will descend from above, and if collides with fish, the
 fish shrinks.*
 - [X] Add Time: *Time-power ups would descend from above, and if collides with fish,
 15 more seconds is added to the timer.*

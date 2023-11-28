@@ -45,6 +45,7 @@ class World:
     timer: DesignerObject
     shark_number: int
     power_ups: list[DesignerObject]
+    marine_snows: list[DesignerObject]
 
 def make_button(message: str, x: int, y: int) -> Button:
     """
@@ -102,7 +103,7 @@ def create_world() -> World:
                  aligned_hearts([create_heart(), create_heart(), create_heart()])
                  , 0, START_TIME,
                  text("navy", "", 20, get_width()/2, 80, layer = 'top', font_name = 'DejaVu Sans Mono'),
-                 SHARK_NUMBER, [])
+                 SHARK_NUMBER, [], [])
 
 def create_fish() -> DesignerObject:
     """
@@ -434,6 +435,53 @@ def more_time(world: World):
             world.second += 15
     world.power_ups = filter_from(world.power_ups, collided_power_ups)
 
+def create_marine_snow() -> DesignerObject:
+    marine_snow = image("images/snow.png")
+    marine_snow.scale_x = 0.2
+    marine_snow.scale_y = 0.2
+    marine_snow.x = randint(0, get_width())
+    marine_snow.y = 0
+    return marine_snow
+
+def spawn_marine_snow(world: World):
+    not_too_many_marine_snow = len(world.marine_snows) < 4
+    random_chance = randint(1, 100) == 50
+    if not_too_many_marine_snow and random_chance:
+        world.marine_snows.append(create_marine_snow())
+
+def move_marine_snow(world: World):
+    """
+    The marine snow descends from above. The snow is destroyed when moved offscreen.
+
+    Args:
+        world (World): The World's instance.
+    """
+    kept = []
+    for marine_snow in world.marine_snows:
+        marine_snow.y += 2
+        if marine_snow.y < get_height():
+            kept.append(marine_snow)
+        else:
+            destroy(marine_snow)
+    world.marine_snows = kept
+
+def shrink_fish(world: World):
+    """
+        When fish collide with marine_snow, the fish shrinks.
+
+        Args:
+            world (World): The World's instance.
+        """
+    fish = world.fish
+    collided_marine_snows = []
+    for marine_snow in world.marine_snows:
+        if colliding(fish, marine_snow):
+            collided_marine_snows.append(marine_snow)
+            fish.scale_x -= 0.05
+            fish.scale_y -= 0.05
+    world.marine_snows = filter_from(world.marine_snows, collided_marine_snows)
+
+
 def game_over(world: World) -> bool:
     time_runs_out = world.second == 0
     no_more_hearts = len(world.hearts) == 0
@@ -477,6 +525,9 @@ when("updating: start", spawn_more_shark)
 when("updating: start", spawn_power_up)
 when("updating: start", move_power_up)
 when("updating: start", more_time)
+when("updating: start", spawn_marine_snow)
+when("updating: start", move_marine_snow)
+when("updating: start", shrink_fish)
 when("updating: start", game_over, pause, create_game_over_screen)
 when("clicking: start", handle_game_over_button) # Game Over Button Does Not Work
 start()
