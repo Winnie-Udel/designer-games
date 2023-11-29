@@ -54,7 +54,7 @@ other side.*
 ### Phase 3
 - [X] Display Stats: *A section of the screen that displays the timer, current 
 score, and number of lives.*
-- [ ] Game Over: *Displays the player's final score when the player runs 
+- [X] Game Over: *Displays the player's final score when the player runs 
 out of lives/timer runs out.*
 - [X] Bonus Points: *If player has remaining lives left after the timer runs out, each lives count as 
 an extra 15 points.*

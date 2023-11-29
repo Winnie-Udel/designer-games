@@ -23,7 +23,7 @@ class TitleScreen:
 
 @dataclass
 class GameOverScreen:
-    # background: DesignerObject
+    background: DesignerObject
     header: DesignerObject
     final_score: DesignerObject
     remaining_hearts: DesignerObject
@@ -80,14 +80,14 @@ def create_title_screen() -> TitleScreen:
 
 def handle_title_buttons(world: TitleScreen):
     """
-    When the buttons of the title screen are clicked, it redirects the user to either the start screen or permits the
+    When the buttons of the title screen are clicked, it redirects the user to either the game scene or permits the
     user to quit the game.
 
     Args:
 	    world (TitleScreen): Composed of a background image, header, and two buttons.
     """
     if colliding_with_mouse(world.start_button.background):
-        change_scene("start")
+        change_scene("game")
     if colliding_with_mouse(world.quit_button.background):
         quit()
 
@@ -436,6 +436,12 @@ def more_time(world: World):
     world.power_ups = filter_from(world.power_ups, collided_power_ups)
 
 def create_marine_snow() -> DesignerObject:
+    """
+    Create marine snow.
+
+    Returns:
+         DesignerObject: Image of a marine snow.
+    """
     marine_snow = image("images/snow.png")
     marine_snow.scale_x = 0.2
     marine_snow.scale_y = 0.2
@@ -444,6 +450,12 @@ def create_marine_snow() -> DesignerObject:
     return marine_snow
 
 def spawn_marine_snow(world: World):
+    """
+    Marine snow randomly spawns.
+
+    Args:
+        world (World): The World's instance.
+    """
     not_too_many_marine_snow = len(world.marine_snows) < 4
     random_chance = randint(1, 100) == 50
     if not_too_many_marine_snow and random_chance:
@@ -467,11 +479,11 @@ def move_marine_snow(world: World):
 
 def shrink_fish(world: World):
     """
-        When fish collide with marine_snow, the fish shrinks.
+    When fish collide with marine_snow, the fish shrinks.
 
-        Args:
-            world (World): The World's instance.
-        """
+    Args:
+        world (World): The World's instance.
+    """
     fish = world.fish
     collided_marine_snows = []
     for marine_snow in world.marine_snows:
@@ -481,53 +493,74 @@ def shrink_fish(world: World):
             fish.scale_y -= 0.05
     world.marine_snows = filter_from(world.marine_snows, collided_marine_snows)
 
+def game_over(world: World):
+    """
+    Transition to the end scene, or the game over screen, when either the time runs out or when there is no more
+    hearts left.
 
-def game_over(world: World) -> bool:
+    Args:
+        world (World): The World's instance.
+    """
     time_runs_out = world.second == 0
     no_more_hearts = len(world.hearts) == 0
-    return time_runs_out or no_more_hearts
+    if time_runs_out or no_more_hearts:
+        push_scene("end", score=world.score, remaining_hearts=len(world.hearts))
 
-def calculate_final_score(world: World) -> int:
-    final_score = world.score + (len(world.hearts) * 15)
-    return final_score
+def create_game_over_screen(score: int, remaining_hearts: int) -> GameOverScreen:
+    """
+    Creates the game over screen.
 
-def create_game_over_screen(world: World) -> GameOverScreen:
-    final_score = calculate_final_score(world)
-    remaining_hearts = len(world.hearts)
-    return GameOverScreen(text("navy", "Game Over!", 60, get_width()/2, 180, font_name = 'DejaVu Sans Mono'),
+    Args:
+        score (int): Player's score.
+        remaining_hearts (int): Number of player's remaining hearts.
+
+    Returns:
+        GameOverScreen: Composed of a background image, header, game statistics, and a home button.
+    """
+    bonus_points = remaining_hearts * 15
+    final_score = score + bonus_points
+    return GameOverScreen(image("images/game_over_background.png"),
+                          text("navy", "Game Over!", 60, get_width()/2, 180, font_name = 'DejaVu Sans Mono'),
                           text("navy", "Final Score: " + str(final_score), 35, get_width()/2, 245,
                                font_name = 'DejaVu Sans Mono'),
                           text("navy", "Remaining Hearts: " + str(remaining_hearts), 20, get_width() / 2, 280,
                                font_name='DejaVu Sans Mono'),
-                          text("navy", "Bonus Points: +" + str(remaining_hearts * 15), 20, get_width() / 2, 305,
+                          text("navy", "Bonus Points: +" + str(bonus_points), 20, get_width() / 2, 305,
                                font_name='DejaVu Sans Mono'),
-                          make_button("Home", get_width()/2, 365))
+                          make_button("Home", get_width()/2, 380))
 
 def handle_game_over_button(world: GameOverScreen):
+    """
+    When the home button of the end scene is clicked, it redirects the user to the title scene.
+
+    Args:
+    	world (GameOverScreen): Composed of a background image, header, game statistics, and a home button.
+    """
     if colliding_with_mouse(world.home_button.background):
         change_scene("title")
 
 when("starting: title", create_title_screen)
 when("clicking: title", handle_title_buttons)
-when("starting: start", create_world)
-when("updating: start", move_fish)
-when("updating: start", wrap_fish)
-when("typing: start", control_fish)
-when("updating: start", spawn_shrimp)
-when("updating: start", eating_shrimp)
-when("updating: start", update_score)
-when("updating: start", spawn_shark)
-when("updating: start", move_shark)
-when("updating: start", eating_fish)
-when("updating: start", last_heart_warning)
-when("updating: start", update_timer)
-when("updating: start", spawn_more_shark)
-when("updating: start", spawn_power_up)
-when("updating: start", move_power_up)
-when("updating: start", more_time)
-when("updating: start", spawn_marine_snow)
-when("updating: start", move_marine_snow)
-when("updating: start", shrink_fish)
-when("updating: start", game_over, pause, create_game_over_screen)
-when("clicking: start", handle_game_over_button) # Game Over Button Does Not Work
+when("starting: game", create_world)
+when("updating: game", move_fish)
+when("updating: game", wrap_fish)
+when("typing: game", control_fish)
+when("updating: game", spawn_shrimp)
+when("updating: game", eating_shrimp)
+when("updating: game", update_score)
+when("updating: game", spawn_shark)
+when("updating: game", move_shark)
+when("updating: game", eating_fish)
+when("updating: game", last_heart_warning)
+when("updating: game", update_timer)
+when("updating: game", spawn_more_shark)
+when("updating: game", spawn_power_up)
+when("updating: game", move_power_up)
+when("updating: game", more_time)
+when("updating: game", spawn_marine_snow)
+when("updating: game", move_marine_snow)
+when("updating: game", shrink_fish)
+when("updating: game", game_over)
+when("starting: end", create_game_over_screen)
+when("clicking: end", handle_game_over_button)
 start()
