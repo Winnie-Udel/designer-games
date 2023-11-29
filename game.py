@@ -188,11 +188,11 @@ def create_shrimp() -> DesignerObject:
     Creates the shrimp.
 
     Returns:
-        DesignerObject: A shrimp emoji.
+        DesignerObject: An image of shrimp.
     """
-    shrimp = emoji("shrimp")
-    shrimp.scale_x = 0.6
-    shrimp.scale_y = 0.6
+    shrimp = image("images/shrimp.png")
+    shrimp.scale_x = 0.4
+    shrimp.scale_y = 0.4
     shrimp.x = randint(0, get_width())
     shrimp.y = randint(0, get_height())
     return shrimp
