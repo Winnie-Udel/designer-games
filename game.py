@@ -28,6 +28,7 @@ class GameOverScreen:
     final_score: DesignerObject
     remaining_hearts: DesignerObject
     bonus_point: DesignerObject
+    try_again_button: Button
     home_button: Button
 
 @dataclass
@@ -59,7 +60,7 @@ def make_button(message: str, x: int, y: int) -> Button:
     Returns:
         Button: A collection of designer objects that forms a button.
     """
-    horizontal_padding = 12
+    horizontal_padding = 15
     vertical_padding = 8
     label = text("navy", message, 20, x, y, layer = 'top', font_name = 'DejaVu Sans Mono')
     return Button(rectangle("lightblue", label.width + horizontal_padding, label.height + vertical_padding, x, y),
@@ -523,19 +524,23 @@ def create_game_over_screen(score: int, remaining_hearts: int) -> GameOverScreen
                           text("navy", "Game Over!", 60, get_width()/2, 180, font_name = 'DejaVu Sans Mono'),
                           text("navy", "Final Score: " + str(final_score), 35, get_width()/2, 245,
                                font_name = 'DejaVu Sans Mono'),
-                          text("navy", "Remaining Hearts: " + str(remaining_hearts), 20, get_width() / 2, 280,
+                          text("navy", "Remaining Hearts: " + str(remaining_hearts), 20, get_width()/2, 280,
                                font_name='DejaVu Sans Mono'),
-                          text("navy", "Bonus Points: +" + str(bonus_points), 20, get_width() / 2, 305,
+                          text("navy", "Bonus Points: +" + str(bonus_points), 20, get_width()/2, 305,
                                font_name='DejaVu Sans Mono'),
-                          make_button("Home", get_width()/2, 380))
+                          make_button("Try Again?", get_width()/2, 380),
+                          make_button("Home", get_width()/2, 430))
 
 def handle_game_over_button(world: GameOverScreen):
     """
-    When the home button of the end scene is clicked, it redirects the user to the title scene.
+    When try again button of the end scene is clicked, it redirects the user back to the game scene. User is
+    redirected to the title scene when home button is clicked.
 
     Args:
     	world (GameOverScreen): Composed of a background image, header, game statistics, and a home button.
     """
+    if colliding_with_mouse(world.try_again_button.background):
+        change_scene("game")
     if colliding_with_mouse(world.home_button.background):
         change_scene("title")
 
