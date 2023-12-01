@@ -1,24 +1,31 @@
 # SHARK INVASION!
 
-Description: This game is about a fish trying to survive a shark invasion uses its resources.
+Play as a small, vulnerable fish and survive the shark invasion! 
 
 ## About
 
 ---
-In *Shark Invasion*, the player plays as a small, vulnerable fish amidst the deep 
-blue ocean. The goal is simple: survive and grow! To do so, avoid the 
-sharks and consume the shrimp before the timer runs out! Beware, sharks take away your lives.
+In *Shark Invasion*, the player plays as a small fish amidst the deep blue ocean. 
+The goal is simple: survive and grow! To do so, avoid the sharks and consume the 
+shrimp before the timer runs out! Organic matter will descend as marine snow, eat 
+them to avoid becoming too noticeable for the shark! Beware, more aggressive sharks 
+will spawn as the game progresses. 
+
+## Preview
+
+---
 
 ## Instructions
 
 ---
-- Use the arrow keys to move the fish right, left, up, and down. 
-- Eat shrimp to increase your score and grow bigger.
-- The sharks take away a life. 
-- The maine snow shrinks the fish to make it easier to avoid the shark.
-- Collect time power-ups to increase your time by 15 seconds.
-- Bonus points are received when lives are left over after the time runs out. 
-- The game gets harder over time. 
+| Game Element                              | Description                                                                                                            |
+|:------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------|
+| <img src="images/fish.png" height="50">   | The player plays as a blue fish. <br/> Use the arrow keys to move the fish right, left, up, and down.                  |
+| <img src="images/shrimp.png" height="50"> | The shrimp looks a bit grumpy, but they are tasty. <br/> To grow bigger and obtain points, eat the shrimp!             |
+| <img src="images/shark.png" height="50">  | Those teeth are no joke. Avoid the sharks! <br/> Thankfully, you have three hearts, use them sparely.                  |
+| <img src="images/heart.png" height="30">  | Not all fish have three hearts! <br/> Gained 15 extra points per leftover heart! |
+| <img src="images/timer.png" height="50">  | Collect these time power-ups to increase your timer by <br/> 15 more seconds!                                          |
+| <img src="images/snow.png" height="30">   | The larger you grow, the more vulnerable you are! <br/> Collect the descending marine snow to shrink in size!          |
 
 ## Authors
 
@@ -28,8 +35,14 @@ sharks and consume the shrimp before the timer runs out! Beware, sharks take awa
 | Winnie Li             | winnie@udel.edu        |
 | Samita Bomasamudram   | samiboma@udel.edu      |
 
-## Resources
+## Acknowledgements
 
+---
+- [Designer Guide](https://designer-edu.github.io/designer/contents.html#)
+- [GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+- [Stack Overflow](https://stackoverflow.com/a/33566654)
+
+## Game Plan
 
 ---
 ### Phase 1
