@@ -15,6 +15,7 @@ will spawn as the game progresses.
 ## Preview
 
 ---
+[Shark Invasion: Gameplay](https://youtu.be/yGb4_2TFO1o)
 
 ## Instructions
 
