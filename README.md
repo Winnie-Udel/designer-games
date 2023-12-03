@@ -80,3 +80,5 @@ as the shark also grows in speed.*
 fish shrinks.*
 - [X] Add Time: *Time-power ups would descend from above, and if collides with fish,
 15 more seconds is added to the timer.*
+
+[Video: Phase 3 Progress](https://youtu.be/Rc9wNcAqo2c)
